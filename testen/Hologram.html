@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DNA Name Effect</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at center, #0b0b0f, black);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+}
+
+#container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.particle {
+  position: absolute;
+  color: #00ffff;
+  font-size: 14px;
+  opacity: 0.8;
+  text-shadow: 0 0 10px cyan;
+  animation: fadeIn 2s infinite alternate;
+}
+
+.centerText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 0.5rem;
+  text-shadow:
+    0 0 10px cyan,
+    0 0 30px magenta;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+  <div class="centerText">LIESLE</div>
+</div>
+
+<script>
+const container = document.getElementById("container");
+
+const chars = ["0","1","A","L","I","E","S","X","Z","9"];
+
+const particles = [];
+
+for (let i = 0; i < 80; i++) {
+  const el = document.createElement("div");
+  el.className = "particle";
+  el.innerText = chars[Math.floor(Math.random() * chars.length)];
+  container.appendChild(el);
+
+  particles.push({
+    el,
+    angle: Math.random() * Math.PI * 2,
+    radius: 10 + Math.random() * 180,
+    speed: 0.01 + Math.random() * 0.02
+  });
+}
+
+function animate() {
+  const centerX = 200;
+  const centerY = 200;
+
+  particles.forEach(p => {
+    p.angle += p.speed;
+
+    const x = centerX + Math.cos(p.angle) * p.radius;
+    const y = centerY + Math.sin(p.angle) * p.radius * 0.6;
+
+    p.el.style.left = x + "px";
+    p.el.style.top = y + "px";
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
